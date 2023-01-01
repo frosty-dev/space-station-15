@@ -119,21 +119,7 @@ namespace Content.Client.Gameplay
 
         private void LoadMainScreen()
         {
-            var screenTypeString = _configurationManager.GetCVar(CCVars.UILayout);
-            if (!Enum.TryParse(screenTypeString, out ScreenType screenType))
-            {
-                screenType = default;
-            }
-
-            switch (screenType)
-            {
-                case ScreenType.Default:
-                    _uiManager.LoadScreen<DefaultGameScreen>();
-                    break;
-                case ScreenType.Separated:
-                    _uiManager.LoadScreen<SeparatedChatGameScreen>();
-                    break;
-            }
+            _uiManager.LoadScreen<SeparatedChatGameScreen>();
 
             _chatController.SetMainChat(true);
             _viewportController.ReloadViewport();

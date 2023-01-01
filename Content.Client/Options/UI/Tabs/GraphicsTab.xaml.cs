@@ -59,27 +59,6 @@ namespace Content.Client.Options.UI.Tabs
             }
             HudThemeOption.OnItemSelected += OnHudThemeChanged;
 
-            var hudLayout = _cfg.GetCVar(CCVars.UILayout);
-            var id = 0;
-            foreach (var layout in Enum.GetValues(typeof(ScreenType)))
-            {
-                var name = layout.ToString()!;
-                HudLayoutOption.AddItem(name, id);
-                if (name == hudLayout)
-                {
-                    HudLayoutOption.SelectId(id);
-                }
-                HudLayoutOption.SetItemMetadata(id, name);
-
-                id++;
-            }
-
-            HudLayoutOption.OnItemSelected += args =>
-            {
-                HudLayoutOption.SelectId(args.Id);
-                UpdateApplyButton();
-            };
-
             ViewportStretchCheckBox.OnToggled += _ =>
             {
                 UpdateViewportScale();
@@ -161,10 +140,6 @@ namespace Content.Client.Options.UI.Tabs
             _cfg.SetCVar(CCVars.HudFpsCounterVisible, FpsCounterCheckBox.Pressed);
             _cfg.SetCVar(CCVars.ViewportWidth, (int) ViewportWidthSlider.Value);
 
-            if (HudLayoutOption.SelectedMetadata is string opt)
-            {
-                _cfg.SetCVar(CCVars.UILayout, opt);
-            }
 
             _cfg.SaveToFile();
             UpdateApplyButton();
@@ -196,7 +171,6 @@ namespace Content.Client.Options.UI.Tabs
             var isShowHeldItemSame = ShowHeldItemCheckBox.Pressed == _cfg.GetCVar(CCVars.HudHeldItemShow);
             var isFpsCounterVisibleSame = FpsCounterCheckBox.Pressed == _cfg.GetCVar(CCVars.HudFpsCounterVisible);
             var isWidthSame = (int) ViewportWidthSlider.Value == _cfg.GetCVar(CCVars.ViewportWidth);
-            var isLayoutSame = HudLayoutOption.SelectedMetadata is string opt && opt == _cfg.GetCVar(CCVars.UILayout);
 
             ApplyButton.Disabled = isVSyncSame &&
                                    isFullscreenSame &&
@@ -210,8 +184,7 @@ namespace Content.Client.Options.UI.Tabs
                                    isHudThemeSame &&
                                    isShowHeldItemSame &&
                                    isFpsCounterVisibleSame &&
-                                   isWidthSame &&
-                                   isLayoutSame;
+                                   isWidthSame;
         }
 
         private bool ConfigIsFullscreen =>
