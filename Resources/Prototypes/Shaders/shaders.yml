@@ -37,6 +37,13 @@
   path: "/Textures/Shaders/rainbow.swsl"
 
 - type: shader
+  id: Grain
+  kind: source
+  path: "/Textures/Shaders/grain.swsl"
+  params:
+    strength: 100.0
+
+- type: shader
   id: CameraStatic
   kind: source
   path: "/Textures/Shaders/camera_static.swsl"
